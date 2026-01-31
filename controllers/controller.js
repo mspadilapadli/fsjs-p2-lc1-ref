@@ -118,6 +118,35 @@ class Controller {
             next(error);
         }
     }
+
+    static async patchGiftsClaim(req, res, next) {
+        try {
+            const { id } = req.params;
+            console.log(id, "<<<<id");
+            let gift = await Gift.findOne({
+                where: { id },
+            });
+
+            if (!gift) throw { name: "notFound" };
+            await Gift.update(
+                { status: "claimed" },
+                {
+                    where: { id },
+                },
+            );
+
+            const update = await Gift.findOne({
+                where: { id },
+            });
+
+            //   console.log(`gitf id`);
+            // // console.log(data);
+            res.status(200).json(update);
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    }
 }
 
 module.exports = Controller;
