@@ -99,6 +99,25 @@ class Controller {
             next(error);
         }
     }
+
+    static async deleteGift(req, res, next) {
+        try {
+            const { id } = req.params;
+            // console.log(id);
+            const gift = await Gift.findOne({
+                where: { id },
+            });
+            if (!gift) throw { name: "notFound" };
+            await Gift.destroy({
+                where: { id },
+            });
+            // console.log(data);
+            res.status(200).json({ message: "Gift has been deleted" });
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    }
 }
 
 module.exports = Controller;
