@@ -62,6 +62,30 @@ class Controller {
             next(error);
         }
     }
+    static async postGiftVoucherId(req, res, next) {
+        try {
+            // console.log(req.body);
+            // console.log(req.params);
+            // console.log(req.params.voucherId, "voucherId");
+            let voucher = await Voucher.findByPk(req.params.voucherId);
+            if (!voucher) throw { name: `notFound` };
+            // console.log(voucher, "voucher");
+            const { message, amount, receiverId } = req.body;
+            let addData = {
+                message,
+                senderId: req.user.id,
+                amount,
+                voucherId: req.params.voucherId,
+                receiverId,
+            };
+            let data = await Gift.create(addData);
+            console.log(data);
+            res.status(201).json(data);
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    }
 }
 
 module.exports = Controller;
