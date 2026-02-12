@@ -31,6 +31,7 @@ function errorHandler(error, req, res, next) {
             status = 400;
             message = `Invalid email/password`;
             break;
+
         case `Unauthorized`:
             status = 401;
             message = `Invalid Token`;
