@@ -21,6 +21,29 @@ function errorHandler(error, req, res, next) {
             status = 400;
             message = error.errors.map((e) => e.message);
             break;
+
+        case `InvalidInput`:
+            status = 400;
+            message = `Email or Password is required`;
+            break;
+
+        case `InvalidUser`:
+            status = 400;
+            message = `Invalid email/password`;
+            break;
+        case `Unauthorized`:
+            status = 401;
+            message = `Invalid Token`;
+            break;
+        case `Forbidden`:
+            status = 403;
+            message = `You're not authorized`;
+            break;
+        default:
+            console.log(error);
+            status = 500;
+            message = "Internal Server Error";
+            break;
     }
 
     res.status(status).json({ message });
